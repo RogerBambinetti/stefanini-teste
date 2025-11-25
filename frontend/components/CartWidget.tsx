@@ -157,15 +157,16 @@ export default function CartWidget() {
                             {cart.items.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="flex gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
+                                    className="flex gap-3 p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
                                 >
                                     {item.product.image && (
                                         <Image
-                                            src={item.product.image}
+                                            src={`${apiUrl}${item.product.image}`}
                                             alt={item.product.name}
                                             width={64}
                                             height={64}
-                                            className="w-16 h-16 object-cover rounded shrink-0"
+                                            unoptimized={true}
+                                            className="w-16 h-16 object-contain rounded shrink-0"
                                         />
                                     )}
 
@@ -180,7 +181,7 @@ export default function CartWidget() {
 
                                     <button
                                         onClick={() => handleRemoveItem(item.id)}
-                                        className="p-1 rounded hover:bg-red-100 transition-colors shrink-0"
+                                        className="p-4 rounded hover:bg-red-100 transition-colors shrink-0"
                                         aria-label="Remover item"
                                     >
                                         <Trash2 className="w-4 h-4 text-red-600" />
