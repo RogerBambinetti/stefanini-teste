@@ -18,6 +18,8 @@ export default function ProductDetailPage() {
     const router = useRouter();
     const productId = params?.productId as string;
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -28,8 +30,7 @@ export default function ProductDetailPage() {
 
         const fetchProduct = async () => {
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-                const response = await fetch(`${apiUrl}/products/${productId}`);
+                const response = await fetch(`${apiUrl}/api/products/${productId}`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch product: ${response.statusText}`);
@@ -95,7 +96,7 @@ export default function ProductDetailPage() {
                     <div className="relative h-96 lg:h-full bg-gray-200 flex items-center justify-center">
                         {product.image ? (
                             <Image
-                                src={""}
+                                src={apiUrl + product.image}
                                 alt={product.name}
                                 fill
                                 className="object-cover"
