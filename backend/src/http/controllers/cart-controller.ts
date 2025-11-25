@@ -48,6 +48,8 @@ export class CartController {
             res.status(StatusCodes.OK).json({
                 items: cart.items,
                 itemCount: cart.items.length,
+                subtotal: cart.subtotal,
+                discount: cart.discount,
                 total: cart.total
             });
         } catch (error) {

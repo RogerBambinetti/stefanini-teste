@@ -175,13 +175,13 @@ export default function CartWidget() {
                                             {item.product.name}
                                         </h3>
                                         <p className="text-gray-600 text-xs mt-1">
-                                            R$ {item.product.price.toFixed(2)}
+                                            R$ {item.product.price.toFixed(2)} x {item.quantity}
                                         </p>
                                     </div>
 
                                     <button
                                         onClick={() => handleRemoveItem(item.id)}
-                                        className="p-4 rounded hover:bg-red-100 transition-colors shrink-0"
+                                        className="w-10 h-10 rounded hover:bg-red-100 transition-colors shrink-0 flex items-center justify-center"
                                         aria-label="Remover item"
                                     >
                                         <Trash2 className="w-4 h-4 text-red-600" />
@@ -198,7 +198,7 @@ export default function CartWidget() {
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-600">Subtotal:</span>
                                 <span className="text-gray-900 font-medium">
-                                    R$
+                                    R$ {cart.subtotal.toFixed(2)}
                                 </span>
                             </div>
 
@@ -206,7 +206,7 @@ export default function CartWidget() {
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Desconto:</span>
                                     <span className="text-green-600 font-medium">
-                                        -R$
+                                        -R$ {cart.discount.toFixed(2)}
                                     </span>
                                 </div>
                             )}
