@@ -29,7 +29,7 @@ export default function Header() {
                         </button>
 
                         <button
-                            className="p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-not-allowed opacity-60"
+                            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                             aria-label="Carrinho"
                             title="Carrinho"
                         >
