@@ -33,12 +33,24 @@ export class GetCartUseCase {
 
     execute(): Cart {
         const items = this.cartRepository.getAll();
-        const total = items.reduce((sum, item) => {
-            return sum + (item.product.price * item.quantity);
-        }, 0);
+
+        const { subtotal, discountAmount } = items.reduce((acc, item) => {
+            const itemTotal = item.product.price * item.quantity;
+            const discountPercent = item.product.discount || 0;
+            const itemDiscount = itemTotal * (discountPercent / 100);
+
+            return {
+                subtotal: acc.subtotal + itemTotal,
+                discountAmount: acc.discountAmount + itemDiscount
+            };
+        }, { subtotal: 0, discountAmount: 0 });
+
+        const total = subtotal - discountAmount;
 
         return {
             items,
+            subtotal: parseFloat(subtotal.toFixed(2)),
+            discount: parseFloat(discountAmount.toFixed(2)),
             total: parseFloat(total.toFixed(2))
         };
     }
