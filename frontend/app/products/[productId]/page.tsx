@@ -30,6 +30,8 @@ export default function ProductDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [quantity, setQuantity] = useState(1);
+    const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const [cartSuccess, setCartSuccess] = useState(false);
 
     useEffect(() => {
         if (!productId) return;
@@ -56,9 +58,38 @@ export default function ProductDetailPage() {
         fetchProduct();
     }, [productId, apiUrl]);
 
-    const handleAddToCart = () => {
-        if (product) {
-            console.log(`Added ${quantity} of ${product.name} to cart`);
+    const handleAddToCart = async () => {
+        if (!product) return;
+
+        setIsAddingToCart(true);
+        setCartSuccess(false);
+
+        try {
+            const response = await fetch(`${apiUrl}/api/cart/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    productId: product.id,
+                    quantity: quantity,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to add product to cart: ${response.statusText}`);
+            }
+
+            setCartSuccess(true);
+            setQuantity(1);
+
+            setTimeout(() => {
+                setCartSuccess(false);
+            }, 3000);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Erro ao adicionar ao carrinho');
+        } finally {
+            setIsAddingToCart(false);
         }
     };
 
@@ -115,7 +146,13 @@ export default function ProductDetailPage() {
                             <ProductActionButtons
                                 onAddToCart={handleAddToCart}
                                 onContinueShopping={() => router.push('/products')}
+                                isLoading={isAddingToCart}
                             />
+                            {cartSuccess && (
+                                <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                                    Produto adicionado ao carrinho com sucesso!
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
