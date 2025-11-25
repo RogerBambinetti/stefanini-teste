@@ -9,6 +9,7 @@ import { ProductDetailsSection } from '@/components/ProductDetailsSection';
 import { ProductPriceSection } from '@/components/ProductPriceSection';
 import { ProductQuantitySelector } from '@/components/ProductQuantitySelector';
 import { ProductActionButtons } from '@/components/ProductActionButtons';
+import { SuccessToast } from '@/components/SuccessToast';
 
 interface Product {
     id: number;
@@ -148,11 +149,10 @@ export default function ProductDetailPage() {
                                 onContinueShopping={() => router.push('/products')}
                                 isLoading={isAddingToCart}
                             />
-                            {cartSuccess && (
-                                <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                                    Produto adicionado ao carrinho com sucesso!
-                                </div>
-                            )}
+                            <SuccessToast
+                                message="Produto adicionado ao carrinho com sucesso!"
+                                isVisible={cartSuccess}
+                            />
                         </div>
                     </div>
                 </div>
