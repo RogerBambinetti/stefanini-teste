@@ -11,10 +11,3 @@ export class InvalidProductDataError extends Error {
         this.name = 'InvalidProductDataError';
     }
 }
-
-export class InvalidCartOperationError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = 'InvalidCartOperationError';
-    }
-}

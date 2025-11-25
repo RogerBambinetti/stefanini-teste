@@ -1,4 +1,4 @@
-import { Product, CartItem } from '../interfaces/product-interfaces';
+import { Product } from '../interfaces/product-interfaces';
 import { mockProducts } from './mock-data';
 
 export interface IProductRepository {
@@ -15,49 +15,5 @@ export class InMemoryProductRepository implements IProductRepository {
 
     findAll(): Product[] {
         return this.products;
-    }
-}
-
-export interface ICartRepository {
-    add(productId: number, quantity: number): CartItem[];
-    getAll(): CartItem[];
-    clear(): void;
-}
-
-export class InMemoryCartRepository implements ICartRepository {
-    private cart: CartItem[] = [];
-    private nextId = 1;
-
-    add(productId: number, quantity: number): CartItem[] {
-        const repository = new InMemoryProductRepository();
-        const product = repository.findById(productId);
-
-        if (!product) {
-            throw new Error(`Product with ID ${productId} not found`);
-        }
-
-        const existingItem = this.cart.find(item => item.product.id === productId);
-
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            const newCartItem: CartItem = {
-                id: this.nextId++,
-                product,
-                quantity
-            };
-            this.cart.push(newCartItem);
-        }
-
-        return this.cart;
-    }
-
-    getAll(): CartItem[] {
-        return this.cart;
-    }
-
-    clear(): void {
-        this.cart = [];
-        this.nextId = 1;
     }
 }
