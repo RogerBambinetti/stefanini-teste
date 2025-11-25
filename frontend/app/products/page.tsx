@@ -46,7 +46,7 @@ export default function ProductsPage() {
     }, [apiUrl]);
 
     if (loading) {
-        return <LoadingState />;
+        return <LoadingState message="Carregando produtos..." />;
     }
 
     if (error) {
