@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { LoadingState } from '@/components/LoadingState';
 import { ErrorState } from '@/components/ErrorState';
 import { ProductImageSection } from '@/components/ProductImageSection';
@@ -21,6 +21,7 @@ interface Product {
 }
 
 export default function ProductDetailPage() {
+    const searchParams = useSearchParams();
     const params = useParams();
     const router = useRouter();
     const productId = params?.productId as string;
@@ -84,6 +85,11 @@ export default function ProductDetailPage() {
             setCartSuccess(true);
             setQuantity(1);
 
+            const newSearchparams = new URLSearchParams(searchParams);
+            newSearchparams.set('showCart', 'true');
+            newSearchparams.set('refetchCart', Date.now().toString());
+            router.push(`?${newSearchparams.toString()}`);
+
             setTimeout(() => {
                 setCartSuccess(false);
             }, 3000);
@@ -91,6 +97,7 @@ export default function ProductDetailPage() {
             setError(err instanceof Error ? err.message : 'Erro ao adicionar ao carrinho');
         } finally {
             setIsAddingToCart(false);
+
         }
     };
 

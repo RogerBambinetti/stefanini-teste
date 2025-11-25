@@ -64,7 +64,7 @@ export default function CartWidget() {
         };
 
         fetchCart();
-    }, [showCart]);
+    }, [showCart, searchParams.get('refetchCart')]);
 
     const handleClose = () => {
         const params = new URLSearchParams(searchParams);
@@ -82,12 +82,10 @@ export default function CartWidget() {
                 throw new Error('Falha ao remover item');
             }
 
-            if (cart) {
-                setCart({
-                    ...cart,
-                    items: cart.items.filter(item => item.id !== cartItemId),
-                });
-            }
+            const newSearchparams = new URLSearchParams(searchParams);
+            newSearchparams.set('refetchCart', Date.now().toString());
+            router.push(`?${newSearchparams.toString()}`);
+
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erro ao remover item');
         }
