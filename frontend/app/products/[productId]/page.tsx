@@ -200,15 +200,6 @@ export default function ProductDetailPage() {
                         </div>
                     </div>
                 </div>
-
-                <div className="mt-16">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-8">
-                        Produtos Relacionados
-                    </h2>
-                    <p className="text-gray-500 text-center py-8">
-                        Produtos relacionados em breve...
-                    </p>
-                </div>
             </div>
         </div>
     );
