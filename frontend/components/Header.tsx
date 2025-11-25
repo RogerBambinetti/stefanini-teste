@@ -1,14 +1,32 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, ShoppingCart, User } from 'lucide-react';
 
 export default function Header() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const handleBack = () => {
         router.back();
     };
+
+    const handleCartToggle = useMemo(() => {
+        return () => {
+            const params = new URLSearchParams(searchParams);
+            const hasShowCart = params.has('showCart');
+
+            if (hasShowCart) {
+                params.delete('showCart');
+            } else {
+                params.set('showCart', 'true');
+            }
+
+            const newUrl = `?${params.toString()}`;
+            router.push(newUrl);
+        };
+    }, [searchParams, router]);
 
     return (
         <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -29,6 +47,7 @@ export default function Header() {
                         </button>
 
                         <button
+                            onClick={handleCartToggle}
                             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                             aria-label="Carrinho"
                             title="Carrinho"
