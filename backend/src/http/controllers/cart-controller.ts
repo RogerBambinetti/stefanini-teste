@@ -24,10 +24,11 @@ export class CartController {
     addToCart(req: Request, res: Response): void {
         try {
             const { productId, quantity } = req.body;
-            const cart = this.addToCartUseCase.execute(productId, quantity);
+
+            this.addToCartUseCase.execute(productId, quantity);
+
             res.status(201).json({
                 message: 'Product added to cart successfully',
-                cart
             });
         } catch (error) {
             if (error instanceof ProductNotFoundError) {
