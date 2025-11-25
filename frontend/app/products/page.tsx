@@ -18,10 +18,11 @@ export default function ProductsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 const response = await fetch(`${apiUrl}/api/products`);
 
                 if (!response.ok) {
@@ -74,7 +75,15 @@ export default function ProductsPage() {
                                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                             >
                                 {product.image && (
-                                    <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
+                                    <div className="relative w-full h-48 overflow-hidden">
+                                        <Image
+                                            unoptimized={true}
+                                            src={`${apiUrl}${product.image}`}
+                                            alt={product.name}
+                                            fill
+                                            className="object-contain"
+                                            priority
+                                        />
 
                                         {product.discount > 0 && (
                                             <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">

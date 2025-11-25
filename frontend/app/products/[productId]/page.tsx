@@ -96,7 +96,8 @@ export default function ProductDetailPage() {
                     <div className="relative h-96 lg:h-full bg-gray-200 flex items-center justify-center">
                         {product.image ? (
                             <Image
-                                src={apiUrl + product.image}
+                                unoptimized={true}
+                                src={`${apiUrl}${product.image}`}
                                 alt={product.name}
                                 fill
                                 className="object-cover"
