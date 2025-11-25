@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Product {
     id: number;
@@ -44,7 +45,7 @@ export default function ProductsPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
-                <div className="text-xl font-semibold text-gray-600">Loading products...</div>
+                <div className="text-xl font-semibold text-gray-600">Carregando produtos...</div>
             </div>
         );
     }
@@ -52,7 +53,7 @@ export default function ProductsPage() {
     if (error) {
         return (
             <div className="flex items-center justify-center min-h-screen">
-                <div className="text-xl font-semibold text-red-600">Error: {error}</div>
+                <div className="text-xl font-semibold text-red-600">Erro: {error}</div>
             </div>
         );
     }
@@ -63,7 +64,7 @@ export default function ProductsPage() {
 
                 {products.length === 0 ? (
                     <div className="text-center py-12">
-                        <p className="text-xl text-gray-500">No products available</p>
+                        <p className="text-xl text-gray-500">Nenhum produto disponível</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -92,7 +93,7 @@ export default function ProductsPage() {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-baseline gap-2">
                                             <span className="text-2xl font-bold text-gray-900">
-                                                ${product.price.toFixed(2)}
+                                                R${product.price.toFixed(2)}
                                             </span>
                                             {product.discount > 0 && (
                                                 <span className="text-sm text-gray-500 line-through">
@@ -101,9 +102,12 @@ export default function ProductsPage() {
                                             )}
                                         </div>
                                     </div>
-                                    <button className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                    <Link
+                                        href={`/products/${product.id}`}
+                                        className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium inline-block text-center"
+                                    >
                                         Ver Produto
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         ))}
