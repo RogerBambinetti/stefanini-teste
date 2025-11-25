@@ -48,31 +48,24 @@ export default function CartWidget() {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await fetch(`${apiUrl}/api/cart`, {
-                    method: 'GET',
-                });
+                const response = await fetch(`${apiUrl}/api/cart`);
 
                 if (!response.ok) {
-                    throw new Error('Falha ao carregar o carrinho');
+                    throw new Error(`Failed to fetch cart: ${response.statusText}`);
                 }
 
                 const data = await response.json();
                 setCart(data);
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Erro desconhecido');
+                setError(err instanceof Error ? err.message : 'Erro ao carregar carrinho');
+                setCart(null);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchCart();
-    }, [showCart, searchParams.get('refetchCart')]);
-
-    const handleClose = () => {
-        const params = new URLSearchParams(searchParams);
-        params.delete('showCart');
-        router.push(`?${params.toString()}`);
-    };
+    }, [showCart, apiUrl, searchParams]);
 
     const handleRemoveItem = async (cartItemId: number) => {
         try {
@@ -81,13 +74,13 @@ export default function CartWidget() {
             });
 
             if (!response.ok) {
-                throw new Error('Falha ao remover item');
+                throw new Error(`Failed to remove item: ${response.statusText}`);
             }
 
             const newSearchparams = new URLSearchParams(searchParams);
+            newSearchparams.set('showCart', 'true');
             newSearchparams.set('refetchCart', Date.now().toString());
             router.push(`?${newSearchparams.toString()}`);
-
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erro ao remover item');
         }
@@ -100,44 +93,45 @@ export default function CartWidget() {
             });
 
             if (!response.ok) {
-                throw new Error('Falha ao limpar carrinho');
+                throw new Error(`Failed to clear cart: ${response.statusText}`);
             }
 
-            setCart({
-                items: [],
-                subtotal: 0,
-                discount: 0,
-                total: 0,
-            });
+            setCart(null);
+
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete('showCart');
+            router.push(`?${newSearchParams.toString()}`);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Erro ao limpar carrinho');
         }
     };
 
-    if (!showCart) return null;
+    const handleClose = () => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.delete('showCart');
+        router.push(`?${newSearchParams.toString()}`);
+    };
+
+    if (!showCart || !cart) return null;
 
     return (
         <CartModal>
             <CartHeader onClose={handleClose} />
-
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="p-4 overflow-y-auto flex-1">
                 <CartItemsList
-                    items={cart?.items || []}
+                    items={cart.items}
                     loading={loading}
                     error={error}
                     apiUrl={apiUrl || ''}
                     onRemoveItem={handleRemoveItem}
                 />
             </div>
-
-            {!loading && cart && cart.items.length > 0 && (
-                <CartSummary
-                    subtotal={cart.subtotal}
-                    discount={cart.discount}
-                    total={cart.total}
-                    onClearCart={handleClearCart}
-                />
-            )}
+            <CartSummary
+                subtotal={cart.subtotal}
+                discount={cart.discount}
+                total={cart.total}
+                onClearCart={handleClearCart}
+            />
         </CartModal>
     );
 }

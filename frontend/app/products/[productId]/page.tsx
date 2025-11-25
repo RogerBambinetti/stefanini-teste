@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { LoadingState } from '@/components/LoadingState';
 import { ErrorState } from '@/components/ErrorState';
-import { ProductImageSection } from '@/components/ProductImageSection';
-import { ProductDetailsSection } from '@/components/ProductDetailsSection';
-import { ProductPriceSection } from '@/components/ProductPriceSection';
-import { ProductQuantitySelector } from '@/components/ProductQuantitySelector';
-import { ProductActionButtons } from '@/components/ProductActionButtons';
+import {
+    ProductImageSection,
+    ProductDetailsSection,
+    ProductPriceSection,
+    ProductQuantitySelector,
+    ProductActionButtons,
+} from '@/components/ProductDetails';
 import { SuccessToast } from '@/components/SuccessToast';
 
 interface Product {

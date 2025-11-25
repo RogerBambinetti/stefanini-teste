@@ -17,6 +17,10 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, apiUrl }: ProductCardProps) {
+    const discountedPrice = product.discount > 0
+        ? product.price * (1 - product.discount / 100)
+        : product.price;
+
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             {product.image && (
@@ -45,21 +49,21 @@ export function ProductCard({ product, apiUrl }: ProductCardProps) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-baseline gap-2">
                         <span className="text-2xl font-bold text-gray-900">
-                            R${product.price.toFixed(2)}
+                            R${discountedPrice.toFixed(2)}
                         </span>
                         {product.discount > 0 && (
-                            <span className="text-sm text-gray-500 line-through">
-                                R${(product.price / (1 - product.discount / 100)).toFixed(2)}
+                            <span className="text-lg text-gray-500 line-through">
+                                R${product.price.toFixed(2)}
                             </span>
                         )}
                     </div>
+                    <Link
+                        href={`/products/${product.id}`}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                    >
+                        Ver Detalhes
+                    </Link>
                 </div>
-                <Link
-                    href={`/products/${product.id}`}
-                    className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium inline-block text-center"
-                >
-                    Ver Produto
-                </Link>
             </div>
         </div>
     );
