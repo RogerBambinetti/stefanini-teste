@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Loja Online",
+  title: "Teste Técnico Stefanini",
   description: "Plataforma de vendas online",
 };
 
