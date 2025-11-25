@@ -14,7 +14,7 @@ export function ProductPriceSection({
     return (
         <div className="mb-6 pb-6 border-b border-gray-200">
             <div className="flex items-baseline gap-3 mb-2">
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-2xl font-bold text-gray-900">
                     R${discountedPrice.toFixed(2)}
                 </span>
                 {discountPercentage > 0 && (

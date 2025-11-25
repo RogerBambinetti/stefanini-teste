@@ -15,7 +15,7 @@ export function ProductImageSection({
     apiUrl,
 }: ProductImageSectionProps) {
     return (
-        <div className="relative h-96 lg:h-full bg-gray-200 flex items-center justify-center">
+        <div className="relative h-96 lg:h-full flex items-center justify-center">
             {image ? (
                 <>
                     <Image
@@ -23,7 +23,7 @@ export function ProductImageSection({
                         src={`${apiUrl}${image}`}
                         alt={productName}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         priority
                     />
                     <DiscountBadge discount={discount} />
