@@ -30,13 +30,13 @@ export class AddToCartUseCase {
         private cartRepository: ICartRepository
     ) { }
 
-    execute(productId: number, quantidade: number): CartItem[] {
-        if (!productId || !quantidade) {
-            throw new InvalidCartOperationError('productId e quantidade são obrigatórios');
+    execute(productId: number, quantity: number): CartItem[] {
+        if (!productId || !quantity) {
+            throw new InvalidCartOperationError('productId and quantity are required');
         }
 
-        if (typeof quantidade !== 'number' || quantidade <= 0) {
-            throw new InvalidCartOperationError('quantidade deve ser um número maior que 0');
+        if (typeof quantity !== 'number' || quantity <= 0) {
+            throw new InvalidCartOperationError('quantity must be a number greater than 0');
         }
 
         const product = this.productRepository.findById(productId);
@@ -44,7 +44,7 @@ export class AddToCartUseCase {
             throw new ProductNotFoundError(productId);
         }
 
-        return this.cartRepository.add(productId, quantidade);
+        return this.cartRepository.add(productId, quantity);
     }
 }
 
@@ -54,7 +54,7 @@ export class GetCartUseCase {
     execute(): Cart {
         const items = this.cartRepository.getAll();
         const total = items.reduce((sum, item) => {
-            return sum + (item.product.preco * item.quantidade);
+            return sum + (item.product.price * item.quantity);
         }, 0);
 
         return {

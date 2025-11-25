@@ -27,7 +27,7 @@ export class ProductController {
             if (error instanceof ProductNotFoundError) {
                 res.status(404).json({ error: (error as Error).message });
             } else {
-                res.status(500).json({ error: 'Erro ao buscar produto' });
+                res.status(500).json({ error: 'Error fetching product' });
             }
         }
     }
@@ -37,16 +37,16 @@ export class ProductController {
             const products = this.listProductsUseCase.execute();
             res.status(200).json(products);
         } catch (error) {
-            res.status(500).json({ error: 'Erro ao listar produtos' });
+            res.status(500).json({ error: 'Error listing products' });
         }
     }
 
     addToCart(req: Request, res: Response): void {
         try {
-            const { productId, quantidade } = req.body;
-            const cart = this.addToCartUseCase.execute(productId, quantidade);
+            const { productId, quantity } = req.body;
+            const cart = this.addToCartUseCase.execute(productId, quantity);
             res.status(201).json({
-                message: 'Produto adicionado ao carrinho com sucesso',
+                message: 'Product added to cart successfully',
                 cart
             });
         } catch (error) {
@@ -55,7 +55,7 @@ export class ProductController {
             } else if (error instanceof InvalidCartOperationError) {
                 res.status(400).json({ error: (error as Error).message });
             } else {
-                res.status(500).json({ error: 'Erro ao adicionar produto ao carrinho' });
+                res.status(500).json({ error: 'Error adding product to cart' });
             }
         }
     }
@@ -69,7 +69,7 @@ export class ProductController {
                 total: cart.total
             });
         } catch (error) {
-            res.status(500).json({ error: 'Erro ao buscar carrinho' });
+            res.status(500).json({ error: 'Error fetching cart' });
         }
     }
 }

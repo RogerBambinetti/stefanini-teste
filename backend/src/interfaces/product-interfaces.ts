@@ -1,15 +1,15 @@
 export interface Product {
     id: number;
-    nome: string;
-    preco: number;
-    descricao: string;
-    foto: string;
+    name: string;
+    price: number;
+    description: string;
+    image: string;
 }
 
 export interface CartItem {
     id: number;
     product: Product;
-    quantidade: number;
+    quantity: number;
 }
 
 export interface Cart {
