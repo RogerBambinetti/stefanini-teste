@@ -93,32 +93,6 @@ export default function CartWidget() {
         }
     };
 
-    const handleUpdateQuantity = async (cartItemId: number, newQuantity: number) => {
-        if (newQuantity < 1) {
-            await handleRemoveItem(cartItemId);
-            return;
-        }
-
-        try {
-            const response = await fetch(`${apiUrl}/api/cart/items/${cartItemId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ quantity: newQuantity }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Falha ao atualizar quantidade');
-            }
-
-            const updatedCart = await response.json();
-            setCart(updatedCart);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Erro ao atualizar quantidade');
-        }
-    };
-
     const handleClearCart = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/cart`, {
@@ -141,8 +115,6 @@ export default function CartWidget() {
     };
 
     if (!showCart) return null;
-
-    debugger;
 
     return (
         <>
