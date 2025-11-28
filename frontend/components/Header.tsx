@@ -9,7 +9,7 @@ export default function Header() {
     const searchParams = useSearchParams();
 
     const handleBack = () => {
-        router.back();
+        router.push('/');
     };
 
     const handleCartToggle = useMemo(() => {
